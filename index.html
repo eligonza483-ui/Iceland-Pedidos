@@ -4,10 +4,244 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pedidos Iceland Los Cardales</title>
+<meta name="theme-color" content="#1f4aa8">
+<style>
+:root{ --bg:#f8fafc; --card:#ffffff; --ink:#1f2937; --muted:#6b7280; --border:#e5e7eb; --brand:#1f4aa8; --brand-ink:#ffffff; }
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--ink)}
+header{background:var(--card);border-bottom:1px solid var(--border);padding:20px 16px}
+main{max-width:980px;margin:0 auto;padding:20px}
+h1{font-size:1.6rem;margin:8px 0 6px}
+.badge{display:inline-block;background:var(--brand);color:var(--brand-ink);padding:6px 10px;border-radius:999px;font-weight:700;font-size:.85rem}
+.logo-wrap{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap}
+.logo-wrap img{height:56px;border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.address{text-align:center;font-size:.9rem;color:#374151;margin-top:4px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.label{font-weight:700;margin:4px 0 10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#fff}
+textarea{min-height:90px;resize:vertical}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--border);border-radius:999px;background:#fff;cursor:pointer;margin:6px 6px 0 0;user-select:none}
+.pill.active{background:#eef2ff;border-color:#c7d2fe}
+.counter{font-size:.9rem;color:#6b7280;margin-left:6px}
+.actions{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(248,250,252,0) 0,var(--bg) 10px),var(--bg);padding:16px;border-top:1px solid var(--border)}
+button{width:100%;padding:14px 16px;font-size:1.05rem;border:none;border-radius:12px;cursor:pointer;background:#1f4aa8;color:#fff;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.tab{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:#fff;cursor:pointer}
+.tab.active{background:#111827;color:#fff;border-color:#111827}
+.small{font-size:.85rem;color:#6b7280}
+.total-row{display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:1.2rem}
+</style>
 </head>
 <body>
-<h1>Mini App de Pedidos Iceland Los Cardales</h1>
-<p>Esta es la versión lista para subir a Netlify. ✅</p>
-<p>Elegí tamaño, sabores, extras y enviá tu pedido por WhatsApp.</p>
+<header>
+  <div class="logo-wrap">
+    <!-- Subí un archivo logo.png a este repo y cambiá la línea de abajo a src="./logo.png" -->
+    <img src="" alt="Iceland Los Cardales logo">
+    <div>
+      <div style="font-weight:900;font-size:1.1rem;letter-spacing:.2px;color:#111827">ICELAND — CARDALES</div>
+      <div class="address">Av. Libertador San Martín 982</div>
+      <div class="small">Pedidos online (solo efectivo)</div>
+    </div>
+  </div>
+  <h1>Helados <span class="badge">elegí tamaño y sabores</span></h1>
+  <p class="small">Si no ves los sabores, actualizá la página.</p>
+</header>
+
+<main>
+  <div class="card">
+    <div class="label">Tamaño</div>
+    <div id="sizes">
+      <span class="pill size active" data-size="1kg">1 Kg (hasta 4 sabores)</span>
+      <span class="pill size" data-size="1/2kg">1/2 Kg (hasta 3 sabores)</span>
+      <span class="pill size" data-size="1/4kg">1/4 Kg (hasta 2 sabores)</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">Datos del cliente</div>
+    <div class="row">
+      <input id="nombre" type="text" placeholder="Nombre" required>
+      <input id="apellido" type="text" placeholder="Apellido" required>
+    </div>
+    <div class="row">
+      <input id="telefono" type="text" placeholder="Teléfono" required>
+      <input id="direccion" type="text" placeholder="Dirección (si es a domicilio)">
+    </div>
+    <label class="pill"><input type="checkbox" id="celiaco"> ¿Es para celíaco?</label>
+  </div>
+
+  <div class="card">
+    <div class="label">Sabores <span id="count" class="counter">(0/4)</span></div>
+    <div class="tabs" id="tabs"></div>
+    <div id="flavors" class="grid"></div>
+  </div>
+
+  <div class="card">
+    <div class="label">Extras</div>
+    <label class="pill"><input id="extra_vasitos" type="checkbox"> Vasitos x 5 (+$700)</label>
+    <label class="pill"><input id="extra_capulinas" type="checkbox"> Capulinas (+$700)</label>
+    <label class="pill"><input id="extra_cucuruchos" type="checkbox"> Cucuruchos (+$700)</label>
+  </div>
+
+  <div class="card">
+    <div class="label">Entrega</div>
+    <label class="pill"><input type="radio" name="envio" value="Retiro en local" checked> Retiro en local</label>
+    <label class="pill"><input type="radio" name="envio" value="Entrega a domicilio"> Entrega a domicilio</label>
+  </div>
+
+  <div class="card">
+    <div class="label">Pago (solo efectivo)</div>
+    <div class="row">
+      <input id="paga_con" type="number" step="100" placeholder="¿Con cuánto paga? (ej: 20000)">
+      <input id="vuelto" type="text" placeholder="Vuelto" disabled>
+    </div>
+    <p class="small">Aclaraciones</p>
+    <textarea id="aclaraciones" placeholder="Ej: dividir en 2 potes, horario, referencias..."></textarea>
+  </div>
+
+  <div class="card">
+    <div class="total-row"><span>Total</span> <span id="total">$0</span></div>
+  </div>
+
+  <div class="actions">
+    <button id="btn">Enviar pedido por WhatsApp</button>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const WHATSAPP = "5492323328852"; // tu número
+  const PRECIOS = { '1kg': 19800, '1/2kg': 12000, '1/4kg': 7000, extra: 700 };
+  const MAX = { '1kg': 4, '1/2kg': 3, '1/4kg': 2 };
+
+  const CATS = {
+    "Todos": [],
+    "Chocolates": ["Chocolate","Chocolate Blanco","Chocolate 70%","Chocolate con Almendras","Chocolate Iceland (pasta de avellanas + avellanas tostadas)","Chocolate Marroc (pasta de maní + bocaditos marroc)","Chocolate Patagónico (frutos rojos macerados en malbec)","Chocolate Suizo (choco blanco + ddl natural)","Granizado","Kinder","Nutella","Salted Caramel (base choco blanco, caramelo y maní salado)","Tramontana"],
+    "Cremas & DDL": ["Crema Americana","Coco con DDL","Cookies & Cream (oreo + avellanas)","Dulce de Leche","Dulce de Leche Bombón","Dulce de Leche Granizado","Dulce de Leche Iceland (almendras con choco + ddl natural)","Dulce de Leche Alpino (ddl + choco blanco + nueces)","Sambayón","Sambayón con Almendras","Vainilla","Higos a la Crema","Banana Split"],
+    "Frutales / Agua": ["Frutilla al Agua","Frutilla a la Crema","Frutos del Bosque","Limón al Agua","Ananá, Limón y Jengibre","Mousse de Maracuyá","Mousse de Arándanos y Grosellas","Mousse de Limón Amalfitano (suave crema de limón + crunch galletitas)"],
+    "Especiales": ["Pistacho","Menta Granizada","Frambuesa 2 Chocolates","Chocolate 70%"]
+  };
+  const SABORES = Array.from(new Set(Object.values(CATS).flat()));
+
+  let sizeSel = '1kg';
+  let currentCat = 'Todos';
+
+  const sizes = document.getElementById('sizes');
+  const tabs = document.getElementById('tabs');
+  const flavors = document.getElementById('flavors');
+
+  function renderTabs(){
+    tabs.innerHTML = '';
+    Object.keys(CATS).forEach(cat=>{
+      const b = document.createElement('button');
+      b.className = 'tab' + (cat===currentCat?' active':'');
+      b.textContent = cat;
+      b.onclick = ()=>{ currentCat = cat; renderFlavors(); renderTabs(); };
+      tabs.appendChild(b);
+    });
+  }
+
+  function renderFlavors(){
+    flavors.innerHTML = '';
+    const list = currentCat==='Todos' ? SABORES : CATS[currentCat];
+    list.forEach((name)=>{
+      const pill = document.createElement('span');
+      pill.className = 'pill flavor';
+      pill.textContent = name;
+      pill.dataset.name = name;
+      pill.onclick = ()=>{ pill.classList.toggle('active'); enforceMax(); updateCounter(); };
+      flavors.appendChild(pill);
+    });
+    updateCounter();
+  }
+
+  function selectedFlavors(){ return Array.from(flavors.querySelectorAll('.pill.flavor.active')).map(p=>p.dataset.name); }
+  function maxAllowed(){ return MAX[sizeSel]; }
+  function updateCounter(){
+    const c = selectedFlavors().length;
+    document.getElementById('count').textContent = `(${c}/${maxAllowed()})`;
+    document.getElementById('btn').disabled = (c===0 || c>maxAllowed());
+  }
+  function enforceMax(){
+    const chosen = selectedFlavors();
+    const max = maxAllowed();
+    if(chosen.length > max){
+      const extras = chosen.slice(max);
+      Array.from(flavors.querySelectorAll('.pill.flavor.active')).forEach(p=>{
+        if(extras.includes(p.dataset.name)) p.classList.remove('active');
+      });
+    }
+  }
+
+  sizes.addEventListener('click', (e)=>{
+    const el = e.target.closest('.pill.size');
+    if(!el) return;
+    sizes.querySelectorAll('.pill.size').forEach(p=>p.classList.remove('active'));
+    el.classList.add('active');
+    sizeSel = el.dataset.size;
+    enforceMax();
+    updateCounter();
+    updateTotal();
+  });
+
+  function ARS(n){ return n.toLocaleString('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}); }
+  function updateTotal(){
+    let total = PRECIOS[sizeSel];
+    if(document.getElementById('extra_vasitos').checked) total += PRECIOS.extra;
+    if(document.getElementById('extra_capulinas').checked) total += PRECIOS.extra;
+    if(document.getElementById('extra_cucuruchos').checked) total += PRECIOS.extra;
+    document.getElementById('total').textContent = ARS(total);
+    const paga = parseInt(document.getElementById('paga_con').value||0);
+    const v = document.getElementById('vuelto');
+    if(paga>0){ const d=paga-total; v.value = d>=0? ARS(d) : 'Faltan '+ARS(-d); } else { v.value=''; }
+  }
+
+  ['extra_vasitos','extra_capulinas','extra_cucuruchos','paga_con'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', updateTotal);
+    document.getElementById(id).addEventListener('change', updateTotal);
+  });
+
+  document.getElementById('btn').onclick = ()=>{
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellido = document.getElementById('apellido').value.trim();
+    const tel = document.getElementById('telefono').value.trim();
+    if(!nombre || !apellido || !tel){ alert('Completá nombre, apellido y teléfono.'); return; }
+    const dir = document.getElementById('direccion').value.trim();
+    const celiaco = document.getElementById('celiaco').checked ? 'Sí' : 'No';
+    const sabores = selectedFlavors();
+    if(sabores.length===0){ alert('Elegí al menos 1 sabor.'); return; }
+
+    let total = PRECIOS[sizeSel];
+    const ex = [];
+    if(document.getElementById('extra_vasitos').checked){ total += PRECIOS.extra; ex.push('Vasitos x5 (+$700)'); }
+    if(document.getElementById('extra_capulinas').checked){ total += PRECIOS.extra; ex.push('Capulinas (+$700)'); }
+    if(document.getElementById('extra_cucuruchos').checked){ total += PRECIOS.extra; ex.push('Cucuruchos (+$700)'); }
+
+    const paga = parseInt(document.getElementById('paga_con').value||0);
+    const vuelto = (paga>0)? (paga - total) : null;
+    const sizeTxt = sizeSel==='1kg' ? '1 Kg' : (sizeSel==='1/2kg' ? '1/2 Kg' : '1/4 Kg');
+
+    const msg =
+      '*Pedido Iceland Los Cardales*%0A' +
+      'Producto: ' + encodeURIComponent(sizeTxt) + '%0A' +
+      'Sabores: ' + encodeURIComponent(sabores.join(' | ')) + '%0A' +
+      'Extras: ' + (ex.length? encodeURIComponent(ex.join(' | ')) : '—') + '%0A' +
+      'Celíaco: ' + celiaco + '%0A' +
+      'Entrega: ' + encodeURIComponent(document.querySelector('input[name=envio]:checked').value) + (dir ? ' - ' + encodeURIComponent(dir) : '') + '%0A' +
+      'Total: ' + encodeURIComponent(ARS(total)) + '%0A' +
+      'Paga con: ' + (paga? ('$'+paga.toLocaleString('es-AR')) : '—') + '%0A' +
+      (paga? ('Vuelto: ' + encodeURIComponent(vuelto>=0 ? ARS(vuelto) : 'Faltan ' + ARS(-vuelto)) + '%0A') : '') +
+      'Cliente: ' + encodeURIComponent(nombre + ' ' + apellido) + ' - ' + encodeURIComponent(tel);
+
+    window.open('https://wa.me/' + WHATSAPP + '?text=' + msg, '_blank');
+  };
+
+  renderTabs();
+  renderFlavors();
+  updateTotal();
+});
+</script>
 </body>
 </html>
