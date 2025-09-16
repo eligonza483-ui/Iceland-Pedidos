@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -37,7 +38,7 @@ button{width:100%;padding:14px 16px;font-size:1.05rem;border:none;border-radius:
 <body>
 <header>
   <div class="logo-wrap">
-    <!-- Subí un archivo logo.png a este repo y cambiá la línea de abajo a src="./logo.png" -->
+    <!-- Opcional: subí logo.png al repo y cambialo por src="./logo.png" -->
     <img src="" alt="Iceland Los Cardales logo">
     <div>
       <div style="font-weight:900;font-size:1.1rem;letter-spacing:.2px;color:#111827">ICELAND — CARDALES</div>
